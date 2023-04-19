@@ -34,3 +34,32 @@ Your assignment is to make it possible for our teams to do something interesting
 
 This is a freeform assignment. You can write a web API that returns a set of food trucks. You can write a web frontend that visualizes the nearby food trucks for a given place. You can create a CLI that lets us get the names of all the taco trucks in the city. You can create system that spits out a container with a placeholder webpage featuring the name of each food truck to help their marketing efforts. You're not limited by these ideas at all, but hopefully those are enough help spark your own creativity.
 San Francisco's food truck open dataset is [located here](https://data.sfgov.org/Economy-and-Community/Mobile-Food-Facility-Permit/rqzj-sfat/data) and there is an endpoint with a [CSV dump of the latest data here](https://data.sfgov.org/api/views/rqzj-sfat/rows.csv). We've also included a copy of the data in this repo as well.
+
+
+# Setup
+### 1. SQL Migrate (Required)
+SQL Migrate is used for running migrations inside ./db/migrations folder
+
+To install the library and command line program, use the following:
+
+```bash
+go get -v github.com/rubenv/sql-migrate/...
+```
+# Dev notes
+
+Plan of action:
+I will be building a python script that will integrate with the sf food_trucks api. The python script will process data and insert the data into a postgres database. I will then build a golang rest api server that will serve food trucks data. This api will add extra functionality like filtering.
+
+Architecture Decision #1 
+I will be using Postgres for the database because it is something i am familiar with, it is popular relational database solution that is tried and tested.
+
+Architecture Decision #2
+I will be using Docker for deploying my database locally and online. Docker will provide many benefits easy deployment, isolation, scalability, flexibility and more.
+
+Architecture Decision #3
+I wil be using python to create a script of ingesting the data from the sfgov SODA API and inserting it to the database. I'm choosing python because its very easy to quickly write a script that will handle this use case.
+
+Architecture Decision #4 
+I will be using golang to create the rest api server. I'm choosing golang because it's something that i'm comfortable with and used recently to build a rest api service. Golang is also a highly performant compiled language. It has nice features like native support of concurrency.
+
+### Nice to haves

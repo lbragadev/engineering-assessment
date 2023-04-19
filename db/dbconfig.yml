@@ -1,0 +1,4 @@
+development:
+    dialect: postgres
+    datasource: host=localhost port=5003 dbname=elc_db user=postgres password=postgres sslmode=disable
+    dir: migrations/
