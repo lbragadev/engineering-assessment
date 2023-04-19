@@ -17,5 +17,3 @@ CREATE TABLE IF NOT EXISTS food_trucks
 
 -- +migrate Down
 DROP TABLE IF EXISTS food_trucks;
-
-
