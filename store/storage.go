@@ -2,7 +2,10 @@ package store
 
 import (
 	"database/sql"
+	"fmt"
+	"log"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 
 	"github.com/lbragadev/engineering-assessment/types"
@@ -16,8 +19,23 @@ type PostgresStore struct {
 	db *sql.DB
 }
 
+func Init() {
+	err := godotenv.Load("prod.env")
+	if err != nil {
+		log.Fatal(".env file couldn't be loaded")
+	}
+	EnvVars = loadEnvVars()
+}
+
 func NewPostgresStore() (*PostgresStore, error) {
-	connStr := "user=postgres dbname=elc_db password=postgres port=5003 sslmode=disable"
+	Init()
+	connStr := fmt.Sprintf(
+		"user=%s password=%s dbname=%s port=%s sslmode=disable",
+		EnvVars.DbUser,
+		EnvVars.DbPass,
+		EnvVars.DbName,
+		EnvVars.DbPort,
+	)
 	db, err := sql.Open("postgres", connStr)
 
 	if err != nil {
@@ -51,6 +69,13 @@ func (s *PostgresStore) GetFoodTrucks() ([]*types.FoodTruck, error) {
 	return foodTrucks, nil
 }
 
+func generateGoogleMapsUrl(lat float64, long float64) string {
+	latStr := fmt.Sprintf("%f", lat)
+	longStr := fmt.Sprintf("%f", long)
+	res := fmt.Sprintf("http://maps.google.com/maps?z=12&t=m&q=loc:%s+%s", latStr, longStr)
+	return res
+}
+
 func scanIntoFoodTruck(rows *sql.Rows) (*types.FoodTruck, error) {
 	foodTruck := new(types.FoodTruck)
 	err := rows.Scan(
@@ -65,5 +90,6 @@ func scanIntoFoodTruck(rows *sql.Rows) (*types.FoodTruck, error) {
 		&foodTruck.Latitude,
 		&foodTruck.Longitude,
 		&foodTruck.CreatedAt)
+	foodTruck.GoogleMapsUrl = generateGoogleMapsUrl(foodTruck.Latitude, foodTruck.Longitude)
 	return foodTruck, err
 }

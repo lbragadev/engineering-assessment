@@ -8,7 +8,17 @@ import (
 )
 
 func main() {
+	//TODO:
+	//Add unit tests
+	//Add filtering for food_items field
+	//Add google_maps_url_field
+	//DONE
 
+	//Deployment
+	//deploy on aws
+	//dockerize this app
+	//use env vars for db creds
+	//DONE
 	store, err := store.NewPostgresStore()
 	if err != nil {
 		log.Fatal(err)

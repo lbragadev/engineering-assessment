@@ -55,6 +55,11 @@ go get github.com/gorilla/mux
 ```bash
 go get github.com/gorilla/mux
 ```
+### 4. godotenv (Required)
+
+```bash
+go get github.com/joho/godotenv
+```
 
 # Dev notes
 

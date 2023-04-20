@@ -9,6 +9,7 @@ type FoodTruck struct {
 	LocationID          int64     `json:"locationId"`
 	Name                string    `json:"name"`
 	Address             string    `json:"address"`
+	GoogleMapsUrl       string    `json:"googleMapsUrl"`
 	Status              string    `json:"status"`
 	FacilityType        string    `json:"facilityType"`
 	LocationDescription string    `json:"locationDescription"`
