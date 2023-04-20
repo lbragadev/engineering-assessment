@@ -1,26 +1,46 @@
+"""
+This script fetches data from sfgov SODA API. It then processes the data and inserts the 
+data to the food_trucks table.
+"""
+
 import psycopg2
 import requests
-from datetime import datetime, timezone
+from datetime import datetime
 
 
 def get_food_trucks():
+    # Fetches list of food trucks from sfgov api and returns as json list.
+
     url = 'https://data.sfgov.org/resource/rqzj-sfat.json'
     response = requests.get(url)    
     data = response.json()
     return data
 
 def connect_to_db():
+    # Connects to postgres database and returns connection.
     conn = psycopg2.connect(host="localhost", port="5003", database="elc_db", user="postgres", password="postgres")
     return conn
 
+def get_location_ids():
+    # Fetches all location_ids from food_trucks table and returns as a list.
+    conn = connect_to_db()
+    cur = conn.cursor()
+    cur.execute("SELECT location_id FROM food_trucks")
+    result = []
+    for row in cur.fetchall():
+        location_id = row[0]
+        result.append(str(location_id))
+    conn.close()
+    return result
+
 def process_food_trucks():
-    print("here")
-    #fetch data
-    #for each food_truck
-        #transform data
-        #insert data to 
-    #commit
-    #close
+    """
+    This function fetches all food trucks from sfgov api. It then fetches all location_ids of existing food_trucks in the food_trucks table.
+    Each food_truck is processed and inserted into the food_trucks table. The location_id of each food_truck is checked so that an already
+    existing food_truck in the table does not get re-inserted. This allows the script to be re-runnable in order to fetch for new food_trucks 
+    without duplicating old ones.
+    """
+
 
     conn = connect_to_db()
     cur = conn.cursor()
@@ -32,7 +52,7 @@ def process_food_trucks():
     for food_truck in food_trucks:
         dt = datetime.now()
 
-        # dont process&&insert food_trucks that already exists in the db.
+        # skip food_trucks that already exists in the db.
         if food_truck['objectid'] in location_ids:
             continue
         status = ""
@@ -42,27 +62,18 @@ def process_food_trucks():
         latitude = ""
         longitude = ""
         if "status" in food_truck:
-            #print(f"food_truck [status] : {food_truck['status']}")
             status = food_truck['status']
         if "facilitytype" in food_truck:
-            #print(f"food_truck [facilitytype] : {food_truck['facilitytype']}")
             facilitytype = food_truck['facilitytype']
         if "locationdescription" in food_truck:
-            # print(f"food_truck [locationdescription] : {food_truck['locationdescription']}")
             locationdescription = food_truck['locationdescription']
         if "fooditems" in food_truck:
-            # print(f"food_truck [fooditems] : {food_truck['fooditems']}")
             fooditems = food_truck['fooditems']
         if "latitude" in food_truck:
-            # print(f"food_truck [latitude] : {food_truck['latitude']}")
             latitude = food_truck['latitude']
         if "longitude" in food_truck:
-            # print(f"food_truck [longitude] : {food_truck['longitude']}")
             longitude = food_truck['longitude']
 
-        # print("\n")
-        # print("\n")
-        # print("\n")
         insert_query = '''
             INSERT INTO food_trucks (location_id, name, address, status, facility_type, 
             location_description, food_items, latitude, longitude, created_at) 
@@ -73,19 +84,5 @@ def process_food_trucks():
     conn.commit()
     conn.close()
 
-def get_location_ids():
-    conn = connect_to_db()
-    cur = conn.cursor()
-    cur.execute("SELECT location_id FROM food_trucks")
-    result = []
-    for row in cur.fetchall():
-        location_id = row[0]
-        result.append(str(location_id))
-    conn.close()
-    return result
-
-def main():
+if __name__ == '__main__':
     process_food_trucks()
-
-main()
-#py import_data.py#

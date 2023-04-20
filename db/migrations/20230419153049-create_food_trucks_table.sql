@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS food_trucks
     food_items            varchar(500),
     latitude            numeric,
     longitude            numeric,
-    created_at timestamp
+    created_at timestamp,
+    UNIQUE(location_id)
 );
 
 -- +migrate Down
