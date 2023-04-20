@@ -45,6 +45,17 @@ To install the library and command line program, use the following:
 ```bash
 go get -v github.com/rubenv/sql-migrate/...
 ```
+### 2. gorilla/mux (Required)
+
+```bash
+go get github.com/gorilla/mux
+```
+### 3. gorilla/mux (Required)
+
+```bash
+go get github.com/gorilla/mux
+```
+
 # Dev notes
 
 Plan of action:
