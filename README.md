@@ -50,12 +50,7 @@ go get -v github.com/rubenv/sql-migrate/...
 ```bash
 go get github.com/gorilla/mux
 ```
-### 3. gorilla/mux (Required)
-
-```bash
-go get github.com/gorilla/mux
-```
-### 4. godotenv (Required)
+### 3. godotenv (Required)
 
 ```bash
 go get github.com/joho/godotenv
