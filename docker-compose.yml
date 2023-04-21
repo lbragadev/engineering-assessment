@@ -1,11 +1,41 @@
+version: '3.9'
+
 services:
-  db:
+  #Golang Rest API Service
+  web:
+    build: .
+    depends_on:
+      pgdb:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "9999:8080"
+    command: ./hack/go_entrypoint.sh 
+
+  #Postgres database
+  pgdb:
     image: postgres:14-alpine
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: elc_db
-    volumes:
-      - /var/lib/postgresql/data
     ports:
       - "5003:5432"
+    volumes:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  #This service runs the python script to ingest data into the db.
+  python:
+    image: python:3.10.5
+    depends_on:
+      - web
+    working_dir: /app
+    command: ./hack/py_entrypoint.sh 
+    volumes:
+      - ./:/app

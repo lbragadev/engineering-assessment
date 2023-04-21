@@ -20,7 +20,7 @@ type PostgresStore struct {
 }
 
 func Init() {
-	err := godotenv.Load("prod.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal(".env file couldn't be loaded")
 	}
@@ -30,12 +30,15 @@ func Init() {
 func NewPostgresStore() (*PostgresStore, error) {
 	Init()
 	connStr := fmt.Sprintf(
-		"user=%s password=%s dbname=%s port=%s sslmode=disable",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		EnvVars.DbHost,
 		EnvVars.DbUser,
 		EnvVars.DbPass,
 		EnvVars.DbName,
 		EnvVars.DbPort,
 	)
+	fmt.Println(connStr)
+
 	db, err := sql.Open("postgres", connStr)
 
 	if err != nil {

@@ -1,3 +1,7 @@
+.PHONY: migrate-up
+migrate-up:
+	sql-migrate up
+
 .PHONY: build
 build:
 	go build -o bin ./...
@@ -6,6 +10,6 @@ build:
 run: build
 	./bin/cmd
 
-.PHONY: start-db
+.PHONY: start-services
 start-db:
-	docker-compose up -d
+	docker-compose up 

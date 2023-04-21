@@ -17,12 +17,14 @@ func main() {
 	//Deployment
 	//deploy on aws
 	//dockerize this app
+	//DONE
 	//use env vars for db creds
 	//DONE
 	store, err := store.NewPostgresStore()
 	if err != nil {
 		log.Fatal(err)
 	}
-	server := api.NewAPIServer(":3000", store)
+	server := api.NewAPIServer("0.0.0.0:8080", store)
 	server.Run()
+
 }

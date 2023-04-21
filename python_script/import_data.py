@@ -18,7 +18,7 @@ def get_food_trucks():
 
 def connect_to_db():
     # Connects to postgres database and returns connection.
-    conn = psycopg2.connect(host="localhost", port="5003", database="elc_db", user="postgres", password="postgres")
+    conn = psycopg2.connect(host="pgdb", port="5432", database="elc_db", user="postgres", password="postgres")
     return conn
 
 def get_location_ids():
@@ -45,6 +45,9 @@ def process_food_trucks():
     conn = connect_to_db()
     cur = conn.cursor()
     food_trucks = get_food_trucks()
+
+    #TODO  
+        #ON CONFLICT UPDATE instead of skip
 
     #get list of all location ids from db
     location_ids = get_location_ids()
