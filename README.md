@@ -87,3 +87,8 @@ I will be using golang to create the rest api server. I'm choosing golang becaus
     - This API will return a list of restaurants that is close to user's provided address.
 - Food Trucks Filter
     - Add filtering to food_items field.
+
+## Challenges
+- During development i was only compiling and running my golang service locally. I ran into some issues getting my golang service running on the Docker environment. This included compiling the golang service, executing the binary and also running the database migrations.
+- I also ran into some issues trying to deploy my docker services online and as a result i will be hosting my serivce locally and exposing my rest endpoint online using Ngrok.
+-  Because of the issues i faced i did not have enough time to implement some of the additional features i wanted to implement.

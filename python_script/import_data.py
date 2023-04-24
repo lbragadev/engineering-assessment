@@ -41,13 +41,9 @@ def process_food_trucks():
     without duplicating old ones.
     """
 
-
     conn = connect_to_db()
     cur = conn.cursor()
     food_trucks = get_food_trucks()
-
-    #TODO  
-        #ON CONFLICT UPDATE instead of skip
 
     #get list of all location ids from db
     location_ids = get_location_ids()
