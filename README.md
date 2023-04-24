@@ -3,6 +3,8 @@
 
 This Application is a Golang REST API Service that provides San Francisco food trucks data. This data comes from the [dataSF API](https://data.sfgov.org/resource/rqzj-sfat.json). I have built a Python script that process and ingests this data from the SFGov API into a Postgres database. The purpose of this application is to build the foundation for a complete backend service that is based around sf food trucks data. 
 
+Video Demo (https://youtu.be/f2HQpGDibHc)
+
 # Setup
 
 ## Get Started
