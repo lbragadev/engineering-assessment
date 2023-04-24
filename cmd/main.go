@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	//Add filtering for food_items field
 	store, err := store.NewPostgresStore()
 	if err != nil {
 		log.Fatal(err)

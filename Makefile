@@ -11,7 +11,7 @@ run: build
 	./bin/cmd
 
 .PHONY: start-services
-start-db:
+start-services:
 	docker-compose up 
 
 .PHONY: test
