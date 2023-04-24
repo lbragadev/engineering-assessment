@@ -77,18 +77,30 @@ I will be using python to create a script of ingesting the data from the sfgov S
 Architecture Decision #4 
 I will be using golang to create the rest api server. I'm choosing golang because it's something that i'm comfortable with and used recently to build a rest api service. Golang is a highly performant compiled language. 
 
+## Note
+
+The Python Script does a check against location_ids in the food_trucks table. This means that the python script can be rerun anytime to fetch for new food_trucks to be ingested without creating duplicate food_trucks in the food_trucks table.
+
+
+
 # System Diagram
 ![Screenshot](EngineeringAssesmentDiagram.png)
+
+# Postman Request Screenshot
+![Screenshot](PostmanReqSC.png)
+
 
 # Features to be Added
 - Create Users
     - Sign up and Log in Functionality.
+    - Add JWT Authentication
 - Add Ratings and Reviews Functionality
     - Add end API for users to leave a rating and reviews for the restaurants.
 - Add a near me API
     - This API will return a list of restaurants that is close to user's provided address.
 - Food Trucks Filter
     - Add filtering to food_items field.
+- Add more unit tests
 
 ## Challenges
 - During development i was only compiling and running my golang service locally. I ran into some issues getting my golang service running on the Docker environment. This included compiling the golang service, executing the binary and also running the database migrations.
