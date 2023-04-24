@@ -13,3 +13,7 @@ run: build
 .PHONY: start-services
 start-db:
 	docker-compose up 
+
+.PHONY: test
+test:
+	go test -v ./test/...
